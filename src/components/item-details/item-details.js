@@ -1,7 +1,6 @@
-import {
-  useState, useEffect, useCallback, Fragment, Children, cloneElement
-} from 'react';
+import { Fragment, Children, cloneElement } from 'react';
 
+import { useDetailData } from '../hooks';
 import Spinner from '../spinner';
 
 import './item-details.css';
@@ -17,41 +16,25 @@ const Record = ({ item, field, label }) => {
 }
 
 const ItemDetails = ({ itemId, getData, getImageUrl, children }) => {
-  const [item, setItem] = useState();
-  const [image, setImage] = useState();
-  const [isPending, setIsPending] = useState(false);
+  const [item, image, isPending] = useDetailData(itemId, getData, getImageUrl);
 
-  const updateItem = useCallback((itemId) => {
-    if (!itemId) {
-      return
-    }
-
-    setIsPending(true);
-    getData(itemId)
-        .then((data) => {
-          setItem(data);
-          setImage(getImageUrl(data));
-        })
-        .finally(() => setIsPending(false));
-  }, []);
-
-  useEffect(() => {
-    updateItem(itemId);
-  }, [itemId, updateItem]);
-
-  const spinner = (!item || isPending) ? <Spinner /> : null;
-  const content = (item && !isPending) ? (
+  const select = (!item && !isPending) && (
+    <h3 className='item-title'> &lt;-Select item</h3>
+  );
+  const spinner = isPending && <Spinner />;
+  const content = (item && !isPending) && (
     <ItemView item={item} image={image}>
       {Children.map(children, (child) => {
         return cloneElement(child, {item});
       })}
     </ItemView>
-   ) : null;
+   );
 
   return (
     <div className="item-details card">
       {spinner}
       {content}
+      {select}
     </div>
   )
 }

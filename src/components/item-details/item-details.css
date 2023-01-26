@@ -20,3 +20,8 @@
 .item-details .list-group-item .term{
   margin-right: .5rem;
 }
+
+.item-details .item-title {
+  text-align: center;
+  width: 100%;
+}

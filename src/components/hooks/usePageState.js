@@ -6,7 +6,7 @@ const usePageState = (value) => {
 
   const onItemSelected = (id) => setItemId(id);
 
-  return [itemId, onItemSelected];
+  return [itemId, onItemSelected, setItemId];
 }
 
 export default usePageState;

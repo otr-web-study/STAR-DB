@@ -1,22 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useListData } from '../hooks';
 
 import Spinner from '../spinner';
 
 import './item-list.css';
 
-const ItemList = ({ getData, onItemSelected, renderItem }) => {
-  const [itemList, setItemList] = useState();
-
-  useEffect(() => {
-    getData()
-      .then((data) => {
-        setItemList(data);
-
-        if (data && data.length > 0) {
-          onItemSelected(data[0].id);
-        }
-      })
-  }, []);
+const ItemList = ({ getData, onItemSelected, renderItem, onDataLoaded }) => {
+  const [itemList] = useListData(getData, onDataLoaded);
 
   const renderItems = (arr) => arr.map(({ id, ...item }) => {
     const label = renderItem(item);
