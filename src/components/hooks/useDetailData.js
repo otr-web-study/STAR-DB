@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const useDetailData = (id, getData, getImageUrl) => {
+const useDetailData = (id, getData, getImageUrl, imageNotFound) => {
   const [item, setItem] = useState();
   const [image, setImage] = useState();
   const [isPending, setIsPending] = useState(false);
@@ -23,7 +23,13 @@ const useDetailData = (id, getData, getImageUrl) => {
     updateItem(id);
   }, [id]);
 
-  return [item, image, isPending];
+  const onImageError = () => {
+    if (imageNotFound) {
+      setImage(imageNotFound);
+    }
+  }
+
+  return [item, image, isPending, onImageError];
 }
 
 export default useDetailData;

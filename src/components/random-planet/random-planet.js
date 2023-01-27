@@ -8,6 +8,7 @@ import ErrorIndicator from '../error-indicator/error-indicator';
 import { Record, ItemView} from "../item-details";
 
 import './random-planet.css';
+import imgNotFound from '../../images/not_found.jpg';
 
 const statuses = {
   loading: 'loading',
@@ -33,11 +34,11 @@ const RandomPlanet = () => {
   useEffect(() => {
     updatePlanet();
 
-    // const interval = setInterval(updatePlanet, 10000);
+    const interval = setInterval(updatePlanet, 10000);
 
-    // return () => {
-    //   clearInterval(interval);
-    // }
+    return () => {
+      clearInterval(interval);
+    }
   }, [updatePlanet]);
 
   const onPlanetLoaded = (planet) => {
@@ -50,9 +51,13 @@ const RandomPlanet = () => {
     setStatus(statuses.error)
   }
 
+  const onImageError = () => {
+    setImage(imgNotFound);
+  }
+
   const spinner = status === statuses.loading && <Spinner />
   const content = status === statuses.success && (
-    <ItemView item={planet} image={image}>
+    <ItemView item={planet} image={image} onImageError={onImageError}>
       <Record item={planet} field='population' label='Population' />
       <Record item={planet} field='rotationPeriod' label='Rotation Period' />
       <Record item={planet} field='diameter' label='Diameter' />

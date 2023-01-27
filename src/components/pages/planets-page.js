@@ -1,15 +1,15 @@
-import { usePageState } from "../hooks";
+import { useItemNavigate } from "../hooks";
 
 import { PlanetDetails, PlanetList } from "../sw-components";
 import Row from "../row/row";
 
 const PlanetPage = () => {
-  const [itemId, onItemSelected] = usePageState();
+  const [onItemSelected] = useItemNavigate();
 
   return (
     <Row
       left={<PlanetList onItemSelected={onItemSelected} />}
-      right={<PlanetDetails itemId={itemId} />} />
+      right={<PlanetDetails />} />
   );
 }
 

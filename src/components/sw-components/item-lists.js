@@ -5,7 +5,8 @@ import { SwapiServiceContext } from "../../contexts";
 
 
 const renderName = ({ name }) => name;
-const renderModelAndName = ({ model, name}) => `${name} ${model}`;
+const renderModelAndName = ({ model, name}) => `${name} (${model})`;
+const renderClassAndName = ({ vehicleClass, name}) => `${name} (${vehicleClass})`;
 
 const PersonList = (props) => {
   const { getAllPeople } = useContext(SwapiServiceContext);
@@ -40,8 +41,20 @@ const StarshipList = (props) => {
   );
 }
 
+const VehicleList = (props) => {
+  const { getAllVehicles } = useContext(SwapiServiceContext);
+
+  return (
+    <ItemList
+      renderItem={renderClassAndName}
+      getData={getAllVehicles}
+      {...props} />
+  )
+}
+
 export {
   PersonList,
   PlanetList,
-  StarshipList
+  StarshipList,
+  VehicleList,
 }

@@ -3,6 +3,7 @@ import { Fragment, Children, cloneElement } from 'react';
 import { useDetailData } from '../hooks';
 import Spinner from '../spinner';
 
+import imgNotFound from '../../images/not_found.jpg';
 import './item-details.css';
 
 
@@ -16,14 +17,16 @@ const Record = ({ item, field, label }) => {
 }
 
 const ItemDetails = ({ itemId, getData, getImageUrl, children }) => {
-  const [item, image, isPending] = useDetailData(itemId, getData, getImageUrl);
+  const [
+    item, image, isPending, onImageError
+  ] = useDetailData(itemId, getData, getImageUrl, imgNotFound);
 
   const select = (!item && !isPending) && (
     <h3 className='item-title'> &lt;-Select item</h3>
   );
   const spinner = isPending && <Spinner />;
   const content = (item && !isPending) && (
-    <ItemView item={item} image={image}>
+    <ItemView item={item} image={image} onImageError={onImageError}>
       {Children.map(children, (child) => {
         return cloneElement(child, {item});
       })}
@@ -39,12 +42,13 @@ const ItemDetails = ({ itemId, getData, getImageUrl, children }) => {
   )
 }
 
-const ItemView = ({ item: { name }, image, children }) => {
+const ItemView = ({ item: { name }, image, children, onImageError }) => {
   return (
     <Fragment>
       <img className="item-image"
         src={image}
-        alt="item" />
+        alt="item"
+        onError={onImageError} />
 
       <div className="card-body">
         <h4>{name}</h4>

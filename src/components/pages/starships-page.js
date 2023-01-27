@@ -1,15 +1,15 @@
-import { usePageState } from "../hooks";
+import { useItemNavigate } from "../hooks";
 
 import { StarshipDetails, StarshipList } from "../sw-components";
 import Row from "../row/row";
 
 const StarshipPage = () => {
-  const [itemId, onItemSelected] = usePageState();
+  const [onItemSelected] = useItemNavigate();
 
   return (
     <Row
       left={<StarshipList onItemSelected={onItemSelected} />}
-      right={<StarshipDetails itemId={itemId} />} />
+      right={<StarshipDetails />} />
   );
 }
 

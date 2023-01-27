@@ -43,6 +43,16 @@ export default class SwapiService {
     return this._transformStarship(starship);
   }
 
+  getAllVehicles = async () => {
+    const res = await this.getResource('/vehicles/');
+    return res.results.map(this._transformVehicle);
+  }
+
+  getVehicle = async (id) => {
+    const vehicle = await this.getResource(`/vehicles/${id}/`);
+    return this._transformVehicle(vehicle);
+  }
+
   getPersonImage = ({ id }) => {
     return `${this._imageBase}/characters/${id}.jpg`;
   }
@@ -53,6 +63,10 @@ export default class SwapiService {
 
   getStarshipImage = ({ id }) => {
     return `${this._imageBase}/starships/${id}.jpg`;
+  }
+
+  getVehicleImage = ({ id }) => {
+    return `${this._imageBase}/vehicles/${id}.jpg`;
   }
 
   _extractId(item) {
@@ -76,11 +90,25 @@ export default class SwapiService {
       name: starship.name,
       model: starship.model,
       manufacturer: starship.manufacturer,
-      costInCredits: starship.costInCredits,
+      costInCredits: starship.cost_in_credits,
       length: starship.length,
       crew: starship.crew,
       passengers: starship.passengers,
-      cargoCapacity: starship.cargoCapacity,
+      cargoCapacity: starship.cargo_capacity,
+    }
+  }
+
+  _transformVehicle = (vehicle) => {
+    return {
+      id: this._extractId(vehicle),
+      name: vehicle.name,
+      model: vehicle.model,
+      manufacturer: vehicle.manufacturer,
+      costInCredits: vehicle.cost_in_credits,
+      passengers: vehicle.passengers,
+      length: vehicle.length,
+      maxSpeed: vehicle.max_atmosphering_speed,
+      vehicleClass: vehicle.vehicle_class
     }
   }
 
