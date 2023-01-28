@@ -6,7 +6,12 @@ import SwapiService from '../../services/swapi-service';
 import Header from '../header';
 import RandomPlanet from '../random-planet';
 import {
-  PeoplePage, PlanetPage, StarshipPage, WelcomePage, VehiclesPage
+  PeoplePage,
+  PlanetPage,
+  StarshipPage,
+  WelcomePage,
+  VehiclesPage,
+  NotFound,
 } from '../pages';
 import ErrorBoundary from '../error-boundary/error-boundary';
 
@@ -38,6 +43,7 @@ const App = () => {
               <Route path=':id' element={<VehiclesPage />} />
               <Route path='' element={<VehiclesPage />} />
             </Route>
+            <Route path='*' element={<NotFound />} />
           </Routes>
         </SwapiServiceContext.Provider>
       </ErrorBoundary>
