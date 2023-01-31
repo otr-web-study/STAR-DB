@@ -55,7 +55,7 @@ const VehicleList = (props) => {
     <ErrorBoundary>
       <ItemList
         renderItem={renderClassAndName}
-        getData1={getAllVehicles}
+        getData={getAllVehicles}
         {...props} />
     </ErrorBoundary>
   )
